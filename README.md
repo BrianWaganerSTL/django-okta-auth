@@ -18,7 +18,7 @@ Install from PyPI:
 
 ## Configuration
 
-### Install the App
+### Include it in the Installed Apps
 
 Add `okta_oauth2.apps.OktaOauth2Config` to `INSTALLED_APPS`:
 
@@ -87,7 +87,7 @@ urlpatterns = [
 
 ### Setup your Okta Application
 
-In the Okta admin console create your application with the following steps:
+In the Okta Admin console create your application with the following steps:
 
 1. Click `Create New App`
 2. Choose the `Web` platform
@@ -156,11 +156,11 @@ A minimal template for the login could be:
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script
-      src="https://global.oktacdn.com/okta-signin-widget/5.0.1/js/okta-sign-in.min.js"
+      src="https://global.oktacdn.com/okta-signin-widget/5.13.1/js/okta-sign-in.min.js"
       type="text/javascript"
     ></script>
     <link
-      href="https://global.oktacdn.com/okta-signin-widget/5.0.1/css/okta-sign-in.min.css"
+      href="https://global.oktacdn.com/okta-signin-widget/5.13.1/css/okta-sign-in.min.css"
       type="text/css"
       rel="stylesheet"
     />
@@ -208,11 +208,15 @@ _str_. The Client ID provided by your Okta Application.
 
 _str_. The Client Secret provided by your Okta Application.
 
+**_GROUP_NAME_**
+
+_str_. Allows your Okta setup to assign a unique group name for your application.  This helps get around the Okta 100 AD groups returned limit for groups.  Because in a custom group you can limit the AD groups to just what your application is looking for. 
+
 **_SCOPES_**
 
 _str_. The scopes requested from the OpenID Authorization server. At the very least this needs to be `"openid profile email"` but if you want to use refresh tokens you will need `"openid profile email offline_access"`. This is the default.
 
-If you want Okta to manage your groups then you should also include `groups` in your scopes.
+If you want Okta to manage your groups then you should also include one of the following in your scope: `groups` or the value defined in GROUP_NAME
 
 **_REDIRECT_URI_**
 
@@ -238,6 +242,22 @@ _List[str]_. A list or tuple of URL names that should be accessible without toke
 
 _List[str]_. A list or tuple of URL regular expressions that should be accessible without tokens. If you add a regex in this setting the middleware won't check matching paths for tokens. Default is `[]`.
 
+**_USER_MAPPING_USERNAME_**
+
+_str_. Allows you to pass in the Okta variable name you want mapped back to Django User.username field.
+
+**_USER_MAPPING_EMAIL_**
+
+_str_. Allows you to pass in the Okta variable name you want mapped back to Django User.email field.
+
+**_USER_MAPPING_FIRST_NAME_**
+
+_str_. Allows you to pass in the Okta variable name you want mapped back to Django User.first_name field.
+
+**_USER_MAPPING_LAST_NAME_**
+
+_str_. Allows you to pass in the Okta variable name you want mapped back to Django User.last_name field.
+    
 **_SUPERUSER_GROUP_**
 
 _str_. Members of this group will have the django `is_superuser` user flags set.
